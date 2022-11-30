@@ -13,4 +13,5 @@ def sep_by_brands(df):
 if __name__ == '__main__':
     data = pd.read_csv('data/Steam Hardware & Software Survey_ October 2022 - Sheet1.csv')
     amd, intel, nvidia = sep_by_brands(data)
+    by_company = pd.read_csv('data/Steam Hardware & Software Survey Video Card Company Comparison_ October 2022.csv')
 
