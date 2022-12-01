@@ -78,7 +78,7 @@ app.layout = html.Div([
         html.P('Datafiles provided by ---'), ### TODO: Credit Valve
         html.P('Dashboard developed for assigned UH@Manoa ICS 484 Fall 2022 course material by'),
         html.P('Samuel Chrisopher Roberts (scrobert@hawaii.edu)'), ### TODO: create mailto link
-        html.P('--- (---)'), ### TODO: group mate attribution, create mailto link
+        html.P('Taylor Wong (taylorsw@hawaii.edu)'), ### TODO: group mate attribution, create mailto link
         html.P('---- (---)'), ### TODO: group mate attribution, create mailto link
         html.P('---- (---)'), ### TODO: group mate attribution, create mailto link
 
