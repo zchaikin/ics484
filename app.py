@@ -16,16 +16,20 @@ def sep_by_brands(df): # Helper function to seperate GPUs into three datasets by
     return amd, intel, nvidia
 
 
-data = pd.read_csv('data/Steam Hardware & Software Survey_ October 2022 - Sheet1.csv')
+data = pd.read_csv('data/Steam Hardware & Software Survey_ October 2022.csv')
 
 amd, intel, nvidia = sep_by_brands(data)
 by_company = pd.read_csv('data/Steam Hardware & Software Survey Video Card Company Comparison_ October 2022.csv')
 ### DATASET import and prep END
 
 ### FIGURE Vendor Market Share START
+def vendor_share_month():
+    June = by_company.JUN.groupBy('VIDEO CARD COMPANY')
 ### FIGURE Vendor Market Share END
 
 ### FIGURE amd line chart START
+def amd_line_percent():
+    #
 ### FIGURE amd line chart END
 
 ### FIGURE nvidia line chart START
