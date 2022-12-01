@@ -1,6 +1,6 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-import plotly.graph_objects as pl
+import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
 
@@ -20,21 +20,35 @@ data = pd.read_csv('data/Steam Hardware & Software Survey_ October 2022.csv')
 by_card = pd.read_csv('data/PC_VIDEO_CARD_USAGE_DETAILS_JUN_-_OCT.csv')
 by_company = pd.read_csv('data/Steam Hardware & Software Survey Video Card Company Comparison_ October 2022.csv')
 
+June = by_company.iloc[:, [0, 1]]
+July = by_company.iloc[:, [0, 2]]
+Aug = by_company.iloc[:, [0, 3]]
+Sep = by_company.iloc[:, [0, 4]]
+Oct = by_company.iloc[:, [0, 5]]
+
 amd, intel, nvidia = sep_by_brands(data)
 ### DATASET import and prep END
 
 ### FIGURE Vendor Market Share START
-def vendor_share_month():
-    June = by_company.iloc[:, [0, 1]]
-    July = by_company.iloc[:, [0, 2]]
-    Aug = by_company.iloc[:, [0, 3]]
-    Sep = by_company.iloc[:, [0, 4]]
-    Oct = by_company.iloc[:, [0, 5]]
+
+def vendor_share(vendor):
+    month_names = ['June', 'July', 'Aug', 'Sep', 'Oct']
+    fig = go.Figure()
+
+    for row in  by_company.rows:
+        fig.add_trace(
+            go.Scatter(
+                x= month_names
+                y= 
+            )
+        )
+
+
 ### FIGURE Vendor Market Share END
 
 ### FIGURE amd line chart START
 def amd_line_percent():
-    #ss
+    #
 ### FIGURE amd line chart END
 
 ### FIGURE nvidia line chart START
