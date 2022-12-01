@@ -24,7 +24,11 @@ by_company = pd.read_csv('data/Steam Hardware & Software Survey Video Card Compa
 
 ### FIGURE Vendor Market Share START
 def vendor_share_month():
-    June = by_company.JUN.groupBy('VIDEO CARD COMPANY')
+    June = by_company.iloc[:, [0, 1]]
+    July = by_company.iloc[:, [0, 2]]
+    Aug = by_company.iloc[:, [0, 3]]
+    Sep = by_company.iloc[:, [0, 4]]
+    Oct = by_company.iloc[:, [0, 5]]
 ### FIGURE Vendor Market Share END
 
 ### FIGURE amd line chart START
