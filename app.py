@@ -32,14 +32,15 @@ amd, intel, nvidia = sep_by_brands(data)
 ### FIGURE Vendor Market Share START
 
 def vendor_share(vendor):
-    month_names = ['June', 'July', 'Aug', 'Sep', 'Oct']
+    prep_df = by_company.set_index(['VIDEO CARD COMPANY'])
+    prep_df = prep_df.T
     fig = go.Figure()
 
-    for row in  by_company.rows:
+    for i in prep_df:
         fig.add_trace(
             go.Scatter(
-                x= month_names
-                y= 
+                x=
+                y=
             )
         )
 
