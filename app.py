@@ -100,7 +100,7 @@ app.layout = html.Div([
         parent_className='tabs-css',
         className='tabs-container-css',
         children=[
-            dcc.Tab(label='TAB NAME HERE',  # EDIT Home tab!
+            dcc.Tab(label='Home',  # EDIT Home tab!
                     value='tab1',
                     className='tab-css',
                     selected_className='tab-selected-css',
@@ -137,8 +137,8 @@ app.layout = html.Div([
         html.P('Dashboard developed for assigned UH@Manoa ICS 484 Fall 2022 course material by'),
         html.P('Samuel Chrisopher Roberts (scrobert@hawaii.edu)'),  ### TODO: create mailto link
         html.P('Taylor Wong (taylorsw@hawaii.edu)'),  ### TODO: group mate attribution, create mailto link
-        html.P('---- (---)'),  ### TODO: group mate attribution, create mailto link
-        html.P('---- (---)'),  ### TODO: group mate attribution, create mailto link
+        html.P('Zachary Chaikin (---)'),  ### TODO: group mate attribution, create mailto link
+        html.P('Gunwook Baik(---)'),  ### TODO: group mate attribution, create mailto link
 
     ]),
 
