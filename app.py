@@ -55,7 +55,7 @@ def vendor_share():
     fig.add_layout_image(
         dict(
             source=blankgpu,
-            xref='x', yref='y', x=-1, y=80, sizex=10, sizey=75, opacity=0.5, layer='below'
+            xref='x', yref='y', x=-1, y=95, sizex=10, sizey=95, opacity=0.5, layer='below'
         )
     )
     fig.update_layout(
@@ -63,12 +63,14 @@ def vendor_share():
         yaxis_title='Market Share (%)',
         legend_title='Vendors',
         title='Steam Market Share by Vendor',
-        annotations=[dict(text='NVIDIA still #1', x='OCT', y=76.24),
-                     dict(text='Race for last place', x='OCT', y=9.25)],
         width=1808,
         height=1017,
-        template='plotly_white'
+        template='plotly_white',
+        font=dict(
+            size=20
+        )
     )
+    fig.update_traces(marker=dict(size=18), line=dict(width=8))
     return fig
 
 
