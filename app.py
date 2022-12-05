@@ -48,7 +48,8 @@ def vendor_share():
         fig.update_layout(
             xaxis_title='Month',
             yaxis_title='Market Share (%)',
-            legend_title='Vendors'
+            legend_title='Vendors',
+            title='Steam Market Share by Vendor'
         )
         count +=1
 
@@ -105,6 +106,9 @@ app.layout = html.Div([
 #            ),
         ]),
     html.Div(id='tab-content'),             # DO NOT EDIT!
+    html.Div(
+        [dcc.Graph(figure=vendor_share())]
+    ),
 
     html.Div(id='footer', children=[        # EDIT!
         html.P('Developed in Python, HTML and CSS. Leverages libraries from Plotly, Dash, and Panda'),
@@ -116,9 +120,7 @@ app.layout = html.Div([
         html.P('---- (---)'), ### TODO: group mate attribution, create mailto link
 
     ]),
-    html.Div(
-        vendor_share()
-    )
+
 ])
 ### WEBSITE header, nav and footer END
 
