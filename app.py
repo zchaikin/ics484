@@ -27,6 +27,7 @@ July = by_company.iloc[:, [0, 2]]
 Aug = by_company.iloc[:, [0, 3]]
 Sep = by_company.iloc[:, [0, 4]]
 Oct = by_company.iloc[:, [0, 5]]
+Months = ['JUN', 'JUL', 'AUG', 'SEP', 'OCT']
 
 amd, intel, nvidia = sep_by_brands(data)
 
@@ -78,18 +79,82 @@ def vendor_share():
 
 ### FIGURE amd line chart START
 def amd_line():
-    fig = go.Figure()
+    fig = go.Figure()  # make fig
+    AMD = by_card.filter(regex=('(AMD.*?)'))
+    graphics = AMD.filter(regex=('[^.*?](Graphics.*?)'))
+    graphics.insert(0, 'MONTH', Months, True)
+    graphics = graphics.set_index(['MONTH'])
+    RX = AMD.filter(regex=('[^.*?](RX.*?)'))
+    RX.insert(0, 'MONTH', Months, True)
+    RX = RX.set_index(['MONTH'])
+    RX = RX.drop(columns=['AMD Radeon RX Vega 11 Graphics'])
+
+    fig.update_layout(
+        width=1600,
+        height=900,
+        template='plotly_white',
+        font=dict(size=20),
+        autosize=True,
+        updatemenus=[go.layout.Updatemenu(
+            active=0,
+            buttons=list(
+                [dict(label='Graphics',
+                      method='update',
+                      args=[{'visible': [True, False]},
+                            {'title': 'Graphics',
+                             'showlegend': True}]),
+                 dict(label='RX',
+                      method='update',
+                      args=[{'visible': [False, True]},
+                            {'title': 'RX',
+                             'showlegend': True}]),
+                 ]
+            )
+        )]
+    )
+    for col in graphics.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=graphics.index,
+                y=graphics[col],
+                name=col
+            )
+        )
+
+    for col in RX.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=RX.index,
+                y=RX[col],
+                name=col
+            )
+        )
+
+    return fig
 
 
 ### FIGURE amd line chart END
 
 ### FIGURE nvidia line chart START
+def nvi_line():
+    fig = go.Figure()
+    NVI = by_card.filter(regex=('(NVIDIA.*?)'))
+    return fig
 ### FIGURE nvidia line chart END
 
 ### FIGURE intel line chart START
+def int_line():
+    INT = by_card.filter(regex=('(Intel.*?)'))
+    fig = go.Figure()
+    return fig
 ### FIGURE intel line chart END
 
 ### ??? "other" line chart ???
+def other_line():
+    fig = go.Figure()
+    Other = by_card.filter(regex=('(Other.*?)'))
+    return fig
+### Other line END
 
 ### WEBSITE header, nav and footer START
 app.layout = html.Div([
@@ -128,7 +193,7 @@ app.layout = html.Div([
         ]),
     html.Div(id='tab-content'),  # DO NOT EDIT!
     html.Div(id='vendor-graph', children=[
-        html.Div([dcc.Graph(figure=vendor_share())], )
+        html.Div([dcc.Graph(figure=amd_line())], )
     ]),
 
     html.Div(id='footer', children=[  # EDIT!
