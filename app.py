@@ -90,8 +90,8 @@ def amd_line():
     RX = RX.drop(columns=['AMD Radeon RX Vega 11 Graphics'])
 
     fig.update_layout(
-        width=1425,
-        height=825,
+        width=1600,
+        height=900,
         template='plotly_white',
         font=dict(size=20),
         autosize=True,
@@ -116,7 +116,7 @@ def amd_line():
 
     fig.update_layout(updatemenus=[go.layout.Updatemenu(
             active=0,
-            x=0.55, y=1.12,
+            x=0.55, y=1.11,
             buttons=list(
                 [dict(label='ALL',
                       method='update',
@@ -139,7 +139,7 @@ def amd_line():
         yaxis_title='Market Share (%)',
         title='Steam Market Share (AMD)',
         legend_title='Card Name:',
-        margin=dict(l=150, r=0, t=100, b=100),
+        margin=dict(l=250, r=0, t=100, b=100),
     )
     return fig
 
