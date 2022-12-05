@@ -155,47 +155,248 @@ def nvi_line():
 
     GT = NVI.filter(regex=('[^.*?](GT .*?)'))
     GT.insert(0, 'MONTH', Months, True)
-    GT.set_index(['MONTH'])
+    GT=GT.set_index(['MONTH'])
 
     GTX10 = NVI.filter(regex=('[^.*?](GTX 10.*?)'))
     GTX10.insert(0, 'MONTH', Months, True)
-    GTX10.set_index(['MONTH'])
+    GTX10=GTX10.set_index(['MONTH'])
 
     M = NVI.filter(regex=('[^.*?](940M.*?)'))
     M.insert(0, 'MONTH', Months, True)
-    M.set_index(['MONTH'])
+    M=M.set_index(['MONTH'])
 
     GTX16 = NVI.filter(regex=('[^.*?](GTX 16.*?)'))
     GTX16.insert(0, 'MONTH', Months, True)
-    GTX16.set_index(['MONTH'])
+    GTX16=GTX16.set_index(['MONTH'])
 
     GTX6 = NVI.filter(regex=('[^.*?](GTX 6.*?)'))
     GTX6.insert(0, 'MONTH', Months, True)
-    GTX6.set_index(['MONTH'])
+    GTX6=GTX6.set_index(['MONTH'])
 
     GTX7 = NVI.filter(regex=('[^.*?](GTX 7.*?)'))
     GTX7.insert(0, 'MONTH', Months, True)
-    GTX7.set_index(['MONTH'])
+    GTX7=GTX7.set_index(['MONTH'])
 
     GTX9 = NVI.filter(regex=('[^.*?](GTX 9.*?)'))
     GTX9.insert(0, 'MONTH', Months, True)
-    GTX9.set_index(['MONTH'])
+    GTX9=GTX9.set_index(['MONTH'])
 
     MX = NVI.filter(regex=('[^.*?](MX.*?)'))
     MX.insert(0, 'MONTH', Months, True)
-    MX.set_index(['MONTH'])
+    MX=MX.set_index(['MONTH'])
 
     RTX20 = NVI.filter(regex=('[^.*?](RTX 20.*?)'))
     RTX20.insert(0, 'MONTH', Months, True)
-    RTX20.set_index(['MONTH'])
+    RTX20=RTX20.set_index(['MONTH'])
 
     RTX30 = NVI.filter(regex=('[^.*?](RTX 30.*?)'))
     RTX30.insert(0, 'MONTH', Months, True)
-    RTX30.set_index(['MONTH'])
+    RTX30=RTX30.set_index(['MONTH'])
 
     # FOR LOOPS (I WANT TO DIE)
-    
+    for col in GT.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=GT.index,
+                y=GT[col],
+                name=col
+            )
+        )
+    for col in GTX10.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=GTX10.index,
+                y=GTX10[col],
+                name=col
+            )
+        )
+    for col in M.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=M.index,
+                y=M[col],
+                name=col
+            )
+        )
+    for col in GTX16.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=GTX16.index,
+                y=GTX16[col],
+                name=col
+            )
+        )
+    for col in GTX6.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=GTX6.index,
+                y=GTX6[col],
+                name=col
+            )
+        )
+    for col in GTX7.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=GTX7.index,
+                y=GTX7[col],
+                name=col
+            )
+        )
+    for col in GTX9.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=GTX9.index,
+                y=GTX9[col],
+                name=col
+            )
+        )
+    for col in MX.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=MX.index,
+                y=MX[col],
+                name=col
+            )
+        )
+    for col in RTX20.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=RTX20.index,
+                y=RTX20[col],
+                name=col
+            )
+        )
+    for col in RTX30.columns.to_list():
+        fig.add_trace(
+            go.Scatter(
+                x=RTX30.index,
+                y=RTX30[col],
+                name=col
+            )
+        )
 
+    # layout
+    fig.update_layout(updatemenus=[go.layout.Updatemenu(
+            active=0,
+            x=0.55, y=1.11,
+            buttons=list(
+                [dict(label='ALL',
+                      method='update',
+                      args=[{'visible': [True]},
+                            {'title': 'ALL',
+                             'showlegend': True}]),
+                 dict(label='M Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         True, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, True, True, True, True, True, True, True, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False]},
+                            {'title': 'M Series',
+                             'showlegend': True}]),
+                 dict(label='GT',
+                      method='update',
+                      args=[{'visible': [True, True, True, True, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False]},
+                            {'title': 'GT',
+                             'showlegend': True}]),
+                 dict(label='GTX 6 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, True,
+                                         True, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False]},
+                            {'title': 'GTX 6 Series',
+                             'showlegend': True}]),
+                 dict(label='GTX 7 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False,
+                                         False, False, True, True, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False]},
+                            {'title': 'GTX 7 Series',
+                             'showlegend': True}]),
+                 dict(label='GTX 9 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False,
+                                         False, False, False, False, True, True, True, True, True, True,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False]},
+                            {'title': 'GTX 9 Series',
+                             'showlegend': True}]),
+                 dict(label='GTX 10 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, True, True, True, True, True, True,
+                                         True, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False]},
+                            {'title': 'GTX 10 Series',
+                             'showlegend': True}]),
+                 dict(label='GTX 16 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         False, True, True, True, True, True, True,
+                                         False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False]},
+                            {'title': 'GTX 16 Series',
+                             'showlegend': True}]),
+                 dict(label='RTX 20 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, True,
+                                         True, True, True, True, True, True, True, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False]},
+                            {'title': 'RTX 20 Series',
+                             'showlegend': True}]),
+                 dict(label='RTX 30 Series',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False,
+                                         False, False, False, False, False, False, False, True, True, True,
+                                         True, True, True, True, True, True, True, True, True, True, True,
+                                         True, True, True, True, True, True, True]},
+                            {'title': 'RTX 30 Series',
+                             'showlegend': True}]),
+
+                 ]
+            ))],
+        xaxis_title='Month',
+        yaxis_title='Market Share (%)',
+        title='Steam Market Share (AMD)',
+        legend_title='Card Name:',
+        margin=dict(l=250, r=0, t=100, b=100),
+        width=1600,
+        height=900,
+        template='plotly_white',
+        font=dict(size=20),
+        autosize=True,
+    )
     return fig
 
 
@@ -256,7 +457,7 @@ app.layout = html.Div([
         ]),
     html.Div(id='tab-content'),  # DO NOT EDIT!
     html.Div(id='vendor-graph', children=[
-        html.Div([dcc.Graph(figure=amd_line())], )
+        html.Div([dcc.Graph(figure=nvi_line())], )
     ]),
 
     html.Div(id='footer', children=[  # EDIT!
