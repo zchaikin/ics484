@@ -149,7 +149,53 @@ def amd_line():
 ### FIGURE nvidia line chart START
 def nvi_line():
     fig = go.Figure()
+
+    # I LOVE REGEXS
     NVI = by_card.filter(regex=('(NVIDIA.*?)'))
+
+    GT = NVI.filter(regex=('[^.*?](GT .*?)'))
+    GT.insert(0, 'MONTH', Months, True)
+    GT.set_index(['MONTH'])
+
+    GTX10 = NVI.filter(regex=('[^.*?](GTX 10.*?)'))
+    GTX10.insert(0, 'MONTH', Months, True)
+    GTX10.set_index(['MONTH'])
+
+    M = NVI.filter(regex=('[^.*?](940M.*?)'))
+    M.insert(0, 'MONTH', Months, True)
+    M.set_index(['MONTH'])
+
+    GTX16 = NVI.filter(regex=('[^.*?](GTX 16.*?)'))
+    GTX16.insert(0, 'MONTH', Months, True)
+    GTX16.set_index(['MONTH'])
+
+    GTX6 = NVI.filter(regex=('[^.*?](GTX 6.*?)'))
+    GTX6.insert(0, 'MONTH', Months, True)
+    GTX6.set_index(['MONTH'])
+
+    GTX7 = NVI.filter(regex=('[^.*?](GTX 7.*?)'))
+    GTX7.insert(0, 'MONTH', Months, True)
+    GTX7.set_index(['MONTH'])
+
+    GTX9 = NVI.filter(regex=('[^.*?](GTX 9.*?)'))
+    GTX9.insert(0, 'MONTH', Months, True)
+    GTX9.set_index(['MONTH'])
+
+    MX = NVI.filter(regex=('[^.*?](MX.*?)'))
+    MX.insert(0, 'MONTH', Months, True)
+    MX.set_index(['MONTH'])
+
+    RTX20 = NVI.filter(regex=('[^.*?](RTX 20.*?)'))
+    RTX20.insert(0, 'MONTH', Months, True)
+    RTX20.set_index(['MONTH'])
+
+    RTX30 = NVI.filter(regex=('[^.*?](RTX 30.*?)'))
+    RTX30.insert(0, 'MONTH', Months, True)
+    RTX30.set_index(['MONTH'])
+
+    # FOR LOOPS (I WANT TO DIE)
+    
+
     return fig
 
 
