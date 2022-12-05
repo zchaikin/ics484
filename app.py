@@ -19,7 +19,7 @@ def sep_by_brands(df): # Helper function to seperate GPUs into three datasets by
 data = pd.read_csv('data/Steam Hardware & Software Survey_ October 2022.csv')
 by_card = pd.read_csv('data/PC_VIDEO_CARD_USAGE_DETAILS_JUN_-_OCT.csv')
 by_company = pd.read_csv('data/Steam Hardware & Software Survey Video Card Company Comparison_ October 2022.csv')
-
+reformat = pd.read_csv('data/Reformated.csv')
 June = by_company.iloc[:, [0, 1]]
 July = by_company.iloc[:, [0, 2]]
 Aug = by_company.iloc[:, [0, 3]]
@@ -30,26 +30,35 @@ amd, intel, nvidia = sep_by_brands(data)
 ### DATASET import and prep END
 
 ### FIGURE Vendor Market Share START
-
-def vendor_share(vendor):
-    prep_df = by_company.set_index(['VIDEO CARD COMPANY'])
-    prep_df = prep_df.T
+def vendor_share():
     fig = go.Figure()
+    name = reformat.columns.tolist()
+    name.remove('MONTH')
+    count = 0
 
-    for i in prep_df:
+    for i in reformat.columns[1:]:
+        reformat[i] = reformat[i].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
-                x=
-                y=
+                x=reformat.MONTH,
+                y=reformat[i],
+                name=name[count],
             )
         )
+        fig.update_layout(
+            xaxis_title='Month',
+            yaxis_title='Market Share (%)',
+            legend_title='Vendors'
+        )
+        count +=1
 
-
+    return fig
 ### FIGURE Vendor Market Share END
 
 ### FIGURE amd line chart START
-def amd_line_percent():
-    #
+def amd_line():
+    fig = go.Figure()
+
 ### FIGURE amd line chart END
 
 ### FIGURE nvidia line chart START
@@ -106,7 +115,10 @@ app.layout = html.Div([
         html.P('---- (---)'), ### TODO: group mate attribution, create mailto link
         html.P('---- (---)'), ### TODO: group mate attribution, create mailto link
 
-    ])
+    ]),
+    html.Div(
+        vendor_share()
+    )
 ])
 ### WEBSITE header, nav and footer END
 
@@ -114,6 +126,11 @@ app.layout = html.Div([
 ### WEBSITE Tab Switching Navigation Callback Logic END
 
 ### DASH footer START
+### DASH footer END
+
+### Callback functions START
+
+### Callback functions END
 
 if __name__ == '__main__':
     app.run_server(debug=True)
