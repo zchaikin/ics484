@@ -40,7 +40,7 @@ def vendor_share():
     name = reformat.columns.tolist()
     name.remove('MONTH')
     count = 0
-    blankgpu=Image.open('data/blankgpu.png')
+    blankgpu = Image.open('data/blankgpu.png')
 
     for i in reformat.columns[1:]:
         reformat[i] = reformat[i].str.rstrip('%').astype('float')
@@ -90,27 +90,11 @@ def amd_line():
     RX = RX.drop(columns=['AMD Radeon RX Vega 11 Graphics'])
 
     fig.update_layout(
-        width=1600,
-        height=900,
+        width=1425,
+        height=825,
         template='plotly_white',
         font=dict(size=20),
         autosize=True,
-        updatemenus=[go.layout.Updatemenu(
-            active=0,
-            buttons=list(
-                [dict(label='Graphics',
-                      method='update',
-                      args=[{'visible': [True, False]},
-                            {'title': 'Graphics',
-                             'showlegend': True}]),
-                 dict(label='RX',
-                      method='update',
-                      args=[{'visible': [False, True]},
-                            {'title': 'RX',
-                             'showlegend': True}]),
-                 ]
-            )
-        )]
     )
     for col in graphics.columns.to_list():
         fig.add_trace(
@@ -130,6 +114,33 @@ def amd_line():
             )
         )
 
+    fig.update_layout(updatemenus=[go.layout.Updatemenu(
+            active=0,
+            x=0.55, y=1.12,
+            buttons=list(
+                [dict(label='ALL',
+                      method='update',
+                      args=[{'visible': [True, True]},
+                            {'title': 'ALL',
+                             'showlegend': True}]),
+                 dict(label='Graphics',
+                      method='update',
+                      args=[{'visible': [True, True, True, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False]},
+                            {'title': 'Graphics',
+                             'showlegend': True}]),
+                 dict(label='RX',
+                      method='update',
+                      args=[{'visible': [False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]},
+                            {'title': 'RX',
+                             'showlegend': True}]),
+                 ]
+            ))],
+        xaxis_title='Month',
+        yaxis_title='Market Share (%)',
+        title='Steam Market Share (AMD)',
+        legend_title='Card Name:',
+        margin=dict(l=150, r=0, t=100, b=100),
+    )
     return fig
 
 
@@ -140,6 +151,8 @@ def nvi_line():
     fig = go.Figure()
     NVI = by_card.filter(regex=('(NVIDIA.*?)'))
     return fig
+
+
 ### FIGURE nvidia line chart END
 
 ### FIGURE intel line chart START
@@ -147,6 +160,8 @@ def int_line():
     INT = by_card.filter(regex=('(Intel.*?)'))
     fig = go.Figure()
     return fig
+
+
 ### FIGURE intel line chart END
 
 ### ??? "other" line chart ???
@@ -154,6 +169,8 @@ def other_line():
     fig = go.Figure()
     Other = by_card.filter(regex=('(Other.*?)'))
     return fig
+
+
 ### Other line END
 
 ### WEBSITE header, nav and footer START
