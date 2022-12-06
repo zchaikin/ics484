@@ -516,11 +516,11 @@ def render_content(tab):
 #            html.H3('Tab 3 content'),
             dcc.Graph(figure=nvi_line())
         ])
-#    elif tab == 'tab4':
-#        return html.Div([
-#            html.H3('Tab 4 content'),
-#            dcc.Graph(figure=)
-#        ])
+    elif tab == 'tab4':
+        return html.Div([
+            html.H3('Tab 4 content'),
+            dcc.Graph(figure=int_line())
+        ])
 ### WEBSITE Tab Switching Navigation Callback Logic END
 
 
