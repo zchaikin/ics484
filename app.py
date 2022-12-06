@@ -96,7 +96,8 @@ def amd_line():
         font=dict(size=20),
         autosize=True,
     )
-    for col in graphics.columns.to_list():
+    for col in graphics.columns[1:]:
+        graphics[col] = graphics[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=graphics.index,
@@ -105,7 +106,8 @@ def amd_line():
             )
         )
 
-    for col in RX.columns.to_list():
+    for col in RX.columns[1:]:
+        RX[col] = RX[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=RX.index,
@@ -196,7 +198,8 @@ def nvi_line():
     RTX30 = RTX30.set_index(['MONTH'])
 
     # FOR LOOPS (I WANT TO DIE)
-    for col in GT.columns.to_list():
+    for col in GT.columns[:1]:
+        GT[col] = GT[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=GT.index,
@@ -204,7 +207,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX10.columns.to_list():
+    for col in GTX10.columns[:1]:
+        GTX10[col] = GTX10[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=GTX10.index,
@@ -212,7 +216,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in M.columns.to_list():
+    for col in M.columns[:1]:
+        M[col] = M[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=M.index,
@@ -220,7 +225,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX16.columns.to_list():
+    for col in GTX16.columns[:1]:
+        GTX16[col] = GTX16[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=GTX16.index,
@@ -228,7 +234,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX6.columns.to_list():
+    for col in GTX6.columns[:1]:
+        GTX6[col] = GTX6[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=GTX6.index,
@@ -236,7 +243,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX7.columns.to_list():
+    for col in GTX7.columns[:1]:
+        GTX7[col] = GTX7[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=GTX7.index,
@@ -244,7 +252,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX9.columns.to_list():
+    for col in GTX9.columns[:1]:
+        GTX9[col] = GTX9[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=GTX9.index,
@@ -252,7 +261,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in MX.columns.to_list():
+    for col in MX.columns[:1]:
+        MX[col] = MX[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=MX.index,
@@ -260,7 +270,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in RTX20.columns.to_list():
+    for col in RTX20.columns[:1]:
+        RTX20[col] = RTX20[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=RTX20.index,
@@ -268,7 +279,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in RTX30.columns.to_list():
+    for col in RTX30.columns[:1]:
+        RTX30[col] = RTX30[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=RTX30.index,
@@ -415,7 +427,8 @@ def int_line():
 
     fig = go.Figure()
     # FOR LOOPS (I WANT TO DIE)
-    for col in Graphic.columns.to_list():
+    for col in Graphic.columns[1:]:
+        Graphic[col] = Graphic[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=Graphic.index,
@@ -489,7 +502,7 @@ app.layout = html.Div([
         html.P('Samuel Chrisopher Roberts (scrobert@hawaii.edu)'),  ### TODO: create mailto link
         html.P('Taylor Wong (taylorsw@hawaii.edu)'),  ### TODO: group mate attribution, create mailto link
         html.P('Zachary Chaikin (---)'),  ### TODO: group mate attribution, create mailto link
-        html.P('Gunwook Baik(---)'),  ### TODO: group mate attribution, create mailto link
+        html.P('Gunwook Baik(gbaik@hawaii.edu)'),  ### TODO: group mate attribution, create mailto link
 
     ]),
 
