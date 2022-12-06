@@ -478,9 +478,9 @@ app.layout = html.Div([
             #            ),
         ]),
     html.Div(id='tab-content'),  # DO NOT EDIT!
-    html.Div(id='vendor-graph', children=[
-        html.Div([dcc.Graph(figure=vendor_share())], )
-    ]),
+#    html.Div(id='vendor-graph', children=[
+#        html.Div([dcc.Graph(figure=vendor_share())], )
+#    ]),
 
     html.Div(id='footer', children=[  # EDIT!
         html.P('Developed in Python, HTML and CSS. Leverages libraries from Plotly, Dash, and Panda'),
@@ -496,15 +496,36 @@ app.layout = html.Div([
 ])
 ### WEBSITE header, nav and footer END
 
+### DASH footer START
 ### WEBSITE Tab Switching Navigation Callback Logic START
+@app.callback(Output('tab-content', 'children'),
+            Input('tabs', 'value'))
+def render_content(tab):
+    if tab == 'tab1':
+        return html.Div([
+#            html.H3('Tab 1 content'),
+            dcc.Graph(figure=vendor_share())
+        ])
+    elif tab == 'tab2':
+        return html.Div([
+#            html.H3('Tab 2 content'),
+            dcc.Graph(figure=amd_line())
+        ])    
+    elif tab == 'tab3':
+        return html.Div([
+#            html.H3('Tab 3 content'),
+            dcc.Graph(figure=nvi_line())
+        ])
+#    elif tab == 'tab4':
+#        return html.Div([
+#            html.H3('Tab 4 content'),
+#            dcc.Graph(figure=)
+#        ])
 ### WEBSITE Tab Switching Navigation Callback Logic END
 
-### DASH footer START
-### DASH footer END
 
-### Callback functions START
 
-### Callback functions END
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+### DASH footer END
