@@ -464,22 +464,22 @@ app.layout = html.Div([
         parent_className='tabs-css',
         className='tabs-container-css',
         children=[
-            dcc.Tab(label='Home',  # EDIT Home tab!
+            dcc.Tab(label='Market Share',  # EDIT Home tab!
                     value='tab1',
                     className='tab-css',
                     selected_className='tab-selected-css',
                     ),
-            dcc.Tab(label='TAB NAME HERE',  # EDIT amd tab!
+            dcc.Tab(label='AMD',  # EDIT amd tab!
                     value='tab2',
                     className='tab-css',
                     selected_className='tab-selected-css',
                     ),
-            dcc.Tab(label='TAB NAME HERE',  # EDIT nvidia tab !
+            dcc.Tab(label='NVIDIA',  # EDIT nvidia tab !
                     value='tab3',
                     className='tab-css',
                     selected_className='tab-selected-css',
                     ),
-            dcc.Tab(label='TAB NAME HERE',  # EDIT intel tab!
+            dcc.Tab(label='Intel',  # EDIT intel tab!
                     value='tab4',
                     className='tab-css',
                     selected_className='tab-selected-css',
