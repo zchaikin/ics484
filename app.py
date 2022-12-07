@@ -80,10 +80,13 @@ def vendor_share():
 ### FIGURE amd line chart START
 def amd_line():
     fig = go.Figure()  # make fig
+
     AMD = by_card.filter(regex=('(AMD.*?)'))
+
     graphics = AMD.filter(regex=('[^.*?](Graphics.*?)'))
     graphics.insert(0, 'MONTH', Months, True)
     graphics = graphics.set_index(['MONTH'])
+
     RX = AMD.filter(regex=('[^.*?](RX.*?)'))
     RX.insert(0, 'MONTH', Months, True)
     RX = RX.set_index(['MONTH'])
@@ -96,7 +99,7 @@ def amd_line():
         font=dict(size=20),
         autosize=True,
     )
-    for col in graphics.columns[1:]:
+    for col in graphics.columns[:]:
         graphics[col] = graphics[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -106,7 +109,7 @@ def amd_line():
             )
         )
 
-    for col in RX.columns[1:]:
+    for col in RX.columns[:]:
         RX[col] = RX[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -122,7 +125,8 @@ def amd_line():
         buttons=list(
             [dict(label='ALL',
                   method='update',
-                  args=[{'visible': [True, True]},
+                  args=[{'visible': [True, True, True, True, True, True, True, True, True, True, True, True,
+                                     True, True, True, True, True, True, True, True]},
                         {'title': 'ALL',
                          'showlegend': True}]),
              dict(label='Graphics',
@@ -153,11 +157,10 @@ def amd_line():
 ### FIGURE nvidia line chart START
 def nvi_line():
     fig = go.Figure()
-
     # I LOVE REGEXS
-    NVI = by_card.filter(regex=('(NVIDIA.*?)'))
+    NVI = by_card.filter(regex='NVIDIA GeForce .*?')
 
-    GT = NVI.filter(regex=('[^.*?](GT .*?)'))
+    GT = by_card.filter(regex=('[^.*?](GT .*?)'))
     GT.insert(0, 'MONTH', Months, True)
     GT = GT.set_index(['MONTH'])
 
@@ -197,8 +200,15 @@ def nvi_line():
     RTX30.insert(0, 'MONTH', Months, True)
     RTX30 = RTX30.set_index(['MONTH'])
 
+    fig.update_layout(
+        width=1600,
+        height=900,
+        template='plotly_white',
+        font=dict(size=20),
+        autosize=True,
+    )
     # FOR LOOPS (I WANT TO DIE)
-    for col in GT.columns[:1]:
+    for col in GT.columns[:]:
         GT[col] = GT[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -207,7 +217,8 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX10.columns[:1]:
+
+    for col in GTX10.columns[:]:
         GTX10[col] = GTX10[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -216,7 +227,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in M.columns[:1]:
+    for col in M.columns[:]:
         M[col] = M[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -225,7 +236,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX16.columns[:1]:
+    for col in GTX16.columns[:]:
         GTX16[col] = GTX16[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -234,7 +245,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX6.columns[:1]:
+    for col in GTX6.columns[:]:
         GTX6[col] = GTX6[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -243,7 +254,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX7.columns[:1]:
+    for col in GTX7.columns[:]:
         GTX7[col] = GTX7[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -252,7 +263,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in GTX9.columns[:1]:
+    for col in GTX9.columns[:]:
         GTX9[col] = GTX9[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -261,7 +272,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in MX.columns[:1]:
+    for col in MX.columns[:]:
         MX[col] = MX[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -270,7 +281,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in RTX20.columns[:1]:
+    for col in RTX20.columns[:]:
         RTX20[col] = RTX20[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -279,7 +290,7 @@ def nvi_line():
                 name=col
             )
         )
-    for col in RTX30.columns[:1]:
+    for col in RTX30.columns[:]:
         RTX30[col] = RTX30[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
@@ -296,13 +307,17 @@ def nvi_line():
         buttons=list(
             [dict(label='ALL',
                   method='update',
-                  args=[{'visible': [True]},
+                  args=[{'visible': [True, True, True, True, True, True, True, True, True, True, True, True,
+                                     True, True, True, True, True, True, True, True, True, True, True, True,
+                                     True, True, True, True, True, True, True, True, True, True, True, True,
+                                     True, True, True, True, True, True, True, True, True, True, True, True,
+                                     True, True, True, True, True, True, True, True, True, True]},
                         {'title': 'ALL',
                          'showlegend': True}]),
              dict(label='M Series',
                   method='update',
                   args=[{'visible': [False, False, False, False, False, False, False, False, False, False, False,
-                                     True, False, False, False, False,
+                                     False, False, False, False, False,
                                      False, False, False, False, False, False, False, False, False, False, False,
                                      False, True, True, True, True, True, True, True, False, False, False,
                                      False, False, False, False, False, False, False, False, False, False, False,
