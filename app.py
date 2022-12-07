@@ -152,7 +152,7 @@ def amd_line():
     return fig
 
 
-### FIGURE amd line chart END
+### FIGURE and line chart END
 
 ### FIGURE nvidia line chart START
 def nvi_line():
@@ -472,7 +472,7 @@ def int_line():
 
 ### WEBSITE header, nav and footer START
 app.layout = html.Div([
-    html.H1('UH MANOA ICS-484 Fall 2022 Project 3'),
+    html.H1('GP4U - Data Visualization Representing Steam Market Shares for Video Cards'),
     dcc.Tabs(
         id="tabs",
         value='tab1',  # SETTING for DEFAULT TAB
@@ -506,54 +506,130 @@ app.layout = html.Div([
             #            ),
         ]),
     html.Div(id='tab-content'),  # DO NOT EDIT!
-#    html.Div(id='vendor-graph', children=[
-#        html.Div([dcc.Graph(figure=vendor_share())], )
-#    ]),
+    #    html.Div(id='vendor-graph', children=[
+    #        html.Div([dcc.Graph(figure=vendor_share())], )
+    #    ]),
 
-    html.Div(id='footer', children=[  # EDIT!
-        html.P('Developed in Python, HTML and CSS. Leverages libraries from Plotly, Dash, Pillow and Panda'),
-        html.P('Datafiles provided by Steam (Valve LLC) and Internet Archive'),  ### TODO: Credit Valve
-        html.P('Dashboard developed for assigned UH@Manoa ICS 484 Fall 2022 course material by'),
-        html.P('Samuel Chrisopher Roberts (scrobert@hawaii.edu)'),  ### TODO: create mailto link
-        html.P('Taylor Wong (taylorsw@hawaii.edu)'),  ### TODO: group mate attribution, create mailto link
-        html.P('Zachary Chaikin (---)'),  ### TODO: group mate attribution, create mailto link
-        html.P('Gunwook Baik (gbaik@hawaii.edu)'),  ### TODO: group mate attribution, create mailto link
-
+    html.Div(id='footer', style={'font-family': 'Arial',
+                                 'font-size': '15pt',
+                                 'padding-left': '80px',
+                                 'padding-bottom': '10px',
+                                 'padding-top': '10px', }, children=[
+        html.P('Visualization generated using Python, HTML and CSS. Leverages libraries from Plotly, Dash, and Panda.'),
+        html.P('ICS 484 Data Visualization developed by University of Hawaii at Mānoa students:'),
+        html.P(['Gunwook Baik ', html.A('(gbaik@hawaii.edu)', href='gbaik@hawaii.edu')]),
+        html.P(['Zachary Chaikin ', html.A('zchaikin@hawaii.edu', href='zchaikin@hawaii.edu')]),
+        html.P(['Samuel Chrisopher Roberts ', html.A('scrobert@hawaii.edu', href='scrobert@hawaii.edu')]),
+        html.P(['Taylor Wong ', html.A('taylorsw@hawaii.edu', href='taylorsw@hawaii.edu')]),
+        html.P(['Datafiles provided by the ', html.A('Steam Hardware & Software Survey', href='https://store.steampowered.com/hwsurvey/videocard/')]),
     ]),
 
 ])
 ### WEBSITE header, nav and footer END
 
 ### DASH footer START
-venfig = vendor_share() # Added as a workaround, costs performance
+venfig = vendor_share()  # Added as a workaround, costs performance
+
+
 ### WEBSITE Tab Switching Navigation Callback Logic START
 @app.callback(Output('tab-content', 'children'),
-            Input('tabs', 'value'))
+              Input('tabs', 'value'))
 def render_content(tab):
     if tab == 'tab1':
         return html.Div(id='vendor_graph', children=[
-#            html.H3('Tab 1 content'),
-#            dcc.Graph(figure=vendor_share())   Commentted out as a workaround, costs performance
-            dcc.Graph(figure=venfig)
+            html.H1(
+                children='GP4U is a Data Visualization displaying Steam GPU (Graphics Processing Unit) or Video card usage over 5 months (June - October).',
+                style={
+                    'font-family': 'Arial',
+                    'font-size': '20pt',
+                    'padding-bottom': '10px',
+                    'padding-left': '80px',
+                    'padding-top': '10px',
+
+                }
+            ),
+
+            html.Div(children='GP4U is practical for many applications. (1) Gamers. From the new individuals diving into gaming to the more advanced gamers, the visualization provides insight to determine what GPU to/not to choose amongst the '
+                              'diverse market of GPU models. (2) Game Developers also benefit from the visualization by determining the GPU specs their player base(s) are using. Indie game developers are lately favorable towards higher-end '
+                              'graphics. Using this visualization, developers can determine whether or not they should favor graphical intensity over performance, given the player base specs. (3) Companies and stock traders can also use this '
+                              'visualization to watch and determine trends and make more accurate conclusions about a company and specific models from the data. Click on the tabs to explore the different Video Card Companies.', style={
+                'font-family': 'Arial',
+                'font-size': '15pt',
+                'padding-left': '80px',
+            }),
+
+            dcc.Graph(figure=venfig),
+
+            html.Div(
+                children='The Overall Market Share Graph shows each video card company comparatively by their market share percentage over 5 months. NVIDIA is king with an average of 74.32% market share over 5 months. AMD comes in second '
+                         'accounting for an average of 9.59% market share, while Intel has a market share of 5.85%. Other video card companies total a market share of 9.22%. Click on the legend to toggle the video card companies.',
+                style={
+                    'font-family': 'Arial',
+                    'font-size': '15pt',
+                    'padding-bottom': '15px',
+                    'padding-left': '80px',
+                    'padding-top': '10px',
+                    'textAlign': 'left',
+                    'width': '1808px',
+                }),
         ])
+
     elif tab == 'tab2':
         return html.Div(id='amd_graph', children=[
-#            html.H3('Tab 2 content'),
-            dcc.Graph(figure=amd_line())
-        ])    
+            dcc.Graph(figure=amd_line()),
+
+            html.Div(
+                children='The AMD Market Share Graph shows each AMD video card model comparatively by market share percentage over five months. The highest average market share belongs to the AMD Radeon Graphics card at 1.59%, '
+                         'while the lowest average market share percentage belongs to the AMD Radeon RX 6800 XT at 0.17%. Click on the dropdown menu to sort the AMD video card models by their model series, and click on the legend to toggle a set '
+                         'of GPU model data points.',
+                style={
+                    'font-family': 'Arial',
+                    'font-size': '15pt',
+                    'padding-bottom': '15px',
+                    'padding-left': '80px',
+                    'padding-top': '10px',
+                    'textAlign': 'left',
+                    'width': '1808px',
+                }),
+        ])
     elif tab == 'tab3':
         return html.Div(id='nvi_graph', children=[
-#            html.H3('Tab 3 content'),
-            dcc.Graph(figure=nvi_line())
+            dcc.Graph(figure=nvi_line()),
+
+            html.Div(
+                children='The NVIDIA Market Share Graph shows each NVIDIA video card model comparatively by market share percentage over five months. The highest average market share belongs to the NVIDIA GeForce GTX 1060 Graphics card at 7.06%, '
+                         'while the lowest average market share percentage belongs to the NVIDIA GeForce GTX 980 at 0.18%. Click on the dropdown menu to sort the NVIDIA video card models by their model series, and click on the legend to toggle a '
+                         'set of GPU model data points.',
+                style={
+                    'font-family': 'Arial',
+                    'font-size': '15pt',
+                    'padding-bottom': '15px',
+                    'padding-left': '80px',
+                    'padding-top': '10px',
+                    'textAlign': 'left',
+                    'width': '1808px',
+                }),
         ])
     elif tab == 'tab4':
         return html.Div(id='int_graph', children=[
-#            html.H3('Tab 4 content'),
-            dcc.Graph(figure=int_line())
+            dcc.Graph(figure=int_line()),
+
+            html.Div(
+                children='The Intel Market Share Graph shows each Intel video card model comparatively by market share percentage over five months. The highest average market share belongs to the Intel(R) UHD Graphics card at 1.24%, '
+                         'while the lowest average market share percentage belongs to the Intel HD Graphics 630 at 0.23%. Click on the legend to toggle a set of GPU model data points.',
+                style={
+                    'font-family': 'Arial',
+                    'font-size': '15pt',
+                    'padding-bottom': '15px',
+                    'padding-left': '80px',
+                    'padding-top': '10px',
+                    'textAlign': 'left',
+                    'width': '1808px',
+                }),
         ])
+
+
 ### WEBSITE Tab Switching Navigation Callback Logic END
-
-
 
 
 if __name__ == '__main__':
