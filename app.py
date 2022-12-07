@@ -1,22 +1,18 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import pandas as pd
 from PIL import Image
 
 app = Dash(__name__)
 
-
-### header END
-
-### DATASET import and prep START
-def sep_by_brands(df):  # Helper function to seperate GPUs into three datasets by company
+# DATASET import and prep START
+# Function to separate GPUs into three datasets by company
+def sep_by_brands(df):
     amd = df[df['ALL VIDEO CARDS'].str.contains('^AMD.*') == True]
     intel = df[df['ALL VIDEO CARDS'].str.contains('^Intel.*') == True]
     nvidia = df[df['ALL VIDEO CARDS'].str.contains('^NVIDIA.*') == True]
     return amd, intel, nvidia
-
 
 data = pd.read_csv('data/Steam Hardware & Software Survey_ October 2022.csv')
 by_card = pd.read_csv('data/PC_VIDEO_CARD_USAGE_DETAILS_JUN_-_OCT.csv')
@@ -30,11 +26,9 @@ Oct = by_company.iloc[:, [0, 5]]
 Months = ['JUN', 'JUL', 'AUG', 'SEP', 'OCT']
 
 amd, intel, nvidia = sep_by_brands(data)
+# DATASET import and prep END
 
-
-### DATASET import and prep END
-
-### FIGURE Vendor Market Share START
+# FIGURE Vendor Market Share START
 def vendor_share():
     fig = go.Figure()
     name = reformat.columns.tolist()
@@ -77,16 +71,15 @@ def vendor_share():
     )
     fig.update_traces(marker=dict(size=18), line=dict(width=8))
     return fig
+# FIGURE Vendor Market Share END
 
-
-### FIGURE Vendor Market Share END
-
-### FIGURE amd line chart START
+# FIGURE amd line chart START
 def amd_line():
-    fig = go.Figure()  # make fig
+    fig = go.Figure()
 
+    # Filter data by AMD name
     AMD = by_card.filter(regex=('(AMD.*?)'))
-
+    # F
     graphics = AMD.filter(regex=('[^.*?](Graphics.*?)'))
     graphics.insert(0, 'MONTH', Months, True)
     graphics = graphics.set_index(['MONTH'])
@@ -169,57 +162,65 @@ def amd_line():
         margin=dict(l=250, r=0, t=100, b=100),
     )
     return fig
+# FIGURE and line chart END
 
-
-### FIGURE and line chart END
-
-### FIGURE nvidia line chart START
+# FIGURE nvidia line chart START
 def nvi_line():
     fig = go.Figure()
-    # I LOVE REGEXS
+    # Filter through dataset for NVIDIA GeForce Series
     NVI = by_card.filter(regex='NVIDIA GeForce .*?')
 
+    # Filter through dataset for NVIDIA GT Series
     GT = by_card.filter(regex=('[^.*?](GT .*?)'))
     GT.insert(0, 'MONTH', Months, True)
     GT = GT.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA GT Series
     GTX10 = NVI.filter(regex=('[^.*?](GTX 10.*?)'))
     GTX10.insert(0, 'MONTH', Months, True)
     GTX10 = GTX10.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA 940 Series
     M = NVI.filter(regex=('[^.*?](940M.*?)'))
     M.insert(0, 'MONTH', Months, True)
     M = M.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA GTX 16 Series
     GTX16 = NVI.filter(regex=('[^.*?](GTX 16.*?)'))
     GTX16.insert(0, 'MONTH', Months, True)
     GTX16 = GTX16.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA GTX 6 Series
     GTX6 = NVI.filter(regex=('[^.*?](GTX 6.*?)'))
     GTX6.insert(0, 'MONTH', Months, True)
     GTX6 = GTX6.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA GTX 7 Series
     GTX7 = NVI.filter(regex=('[^.*?](GTX 7.*?)'))
     GTX7.insert(0, 'MONTH', Months, True)
     GTX7 = GTX7.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA GTX 9 Series
     GTX9 = NVI.filter(regex=('[^.*?](GTX 9.*?)'))
     GTX9.insert(0, 'MONTH', Months, True)
     GTX9 = GTX9.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA GTX MX Series
     MX = NVI.filter(regex=('[^.*?](MX.*?)'))
     MX.insert(0, 'MONTH', Months, True)
     MX = MX.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA RTX 20 Series
     RTX20 = NVI.filter(regex=('[^.*?](RTX 20.*?)'))
     RTX20.insert(0, 'MONTH', Months, True)
     RTX20 = RTX20.set_index(['MONTH'])
 
+    # Filter through dataset for NVIDIA RTX 30 Series
     RTX30 = NVI.filter(regex=('[^.*?](RTX 30.*?)'))
     RTX30.insert(0, 'MONTH', Months, True)
     RTX30 = RTX30.set_index(['MONTH'])
 
-    # FOR LOOPS (I WANT TO DIE)
+    # For loops for NVIDIA GT Series
     for col in GT.columns[:]:
         GT[col] = GT[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -230,7 +231,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
-
+    # For loops for NVIDIA GTX10 Series
     for col in GTX10.columns[:]:
         GTX10[col] = GTX10[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -241,6 +242,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA M Series
     for col in M.columns[:]:
         M[col] = M[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -251,6 +253,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA GTX16 Series
     for col in GTX16.columns[:]:
         GTX16[col] = GTX16[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -261,6 +264,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA GTX6 Series
     for col in GTX6.columns[:]:
         GTX6[col] = GTX6[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -271,6 +275,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA GTX7 Series
     for col in GTX7.columns[:]:
         GTX7[col] = GTX7[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -281,6 +286,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA GTX9 Series
     for col in GTX9.columns[:]:
         GTX9[col] = GTX9[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -291,6 +297,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA MX Series
     for col in MX.columns[:]:
         MX[col] = MX[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -301,6 +308,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA RTX20 Series
     for col in RTX20.columns[:]:
         RTX20[col] = RTX20[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -311,6 +319,7 @@ def nvi_line():
                 hoverlabel=dict(namelength=-1)
             )
         )
+    # For loops for NVIDIA RTX30 Series
     for col in RTX30.columns[:]:
         RTX30[col] = RTX30[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -331,7 +340,6 @@ def nvi_line():
         font=dict(size=20),
         autosize=True,
     )
-    # layout
     fig.update_layout(updatemenus=[go.layout.Updatemenu(
         active=0,
         x=0.55, y=1.11,
@@ -459,21 +467,16 @@ def nvi_line():
         autosize=True,
     )
     return fig
+# FIGURE nvidia line chart END
 
-
-### FIGURE nvidia line chart END
-
-### FIGURE intel line chart START
+# FIGURE intel line chart START
 def int_line():
     INT = by_card.filter(regex=('(Intel.*?)'))
-
-    # ROUND 3 REGEX WOOOOOOOOOOOOOOOOOOO
     Graphic = INT.filter(regex=('[^.*?](Graphics .*?)'))
     Graphic.insert(0, 'MONTH', Months, True)
     Graphic = Graphic.set_index(['MONTH'])
 
     fig = go.Figure()
-    # FOR LOOPS (I WANT TO DIE)
     for col in Graphic.columns[1:]:
         Graphic[col] = Graphic[col].str.rstrip('%').astype('float')
         fig.add_trace(
@@ -501,13 +504,10 @@ def int_line():
         font=dict(size=20),
         autosize=True,
     )
-
     return fig
+# FIGURE intel line chart END
 
-
-### FIGURE intel line chart END
-
-### WEBSITE header, nav and footer START
+# Website Tabs Layout
 app.layout = html.Div([
     html.H1('GP4U - Data Visualization Representing Steam Market Shares for Video Cards'),
     dcc.Tabs(
@@ -541,40 +541,18 @@ app.layout = html.Div([
                     selected_className='tab-selected-css',
                     style={'background-color': 'lightskyblue'},
                     ),
-            #            dcc.Tab(label='TAB NAME HERE',  # ??? "Other" tab ???
-            #                value='tab5',
-            #                className='tab-css',
-            #                selected_className='tab-selected-css',
-            #            ),
         ]),
-    html.Div(id='tab-content'),  # DO NOT EDIT!
+    html.Div(id='tab-content'),
     #    html.Div(id='vendor-graph', children=[
     #        html.Div([dcc.Graph(figure=vendor_share())], )
     #    ]),
-
-    # html.Div(id='footer', style={'background-color': 'ghostwhite',
-    #                              'font-family': 'Arial',
-    #                              'font-size': '15pt',
-    #                              'padding-left': '80px',
-    #                              'padding-bottom': '10px',
-    #                              'padding-top': '10px', }, children=[
-    #     html.P('Visualization generated using Python, HTML and CSS. Leverages libraries from Plotly, Dash, and Panda.'),
-    #     html.P('ICS 484 Data Visualization developed by University of Hawaii at Mānoa students:'),
-    #     html.P(['Gunwook Baik ', html.A('(gbaik@hawaii.edu)', href='gbaik@hawaii.edu')]),
-    #     html.P(['Zachary Chaikin ', html.A('zchaikin@hawaii.edu', href='zchaikin@hawaii.edu')]),
-    #     html.P(['Samuel Chrisopher Roberts ', html.A('scrobert@hawaii.edu', href='scrobert@hawaii.edu')]),
-    #     html.P(['Taylor Wong ', html.A('taylorsw@hawaii.edu', href='taylorsw@hawaii.edu')]),
-    #     html.P(['Datafiles provided by the ', html.A('Steam Hardware & Software Survey', href='https://store.steampowered.com/hwsurvey/videocard/')]),
-    # ]),
-
 ])
-### WEBSITE header, nav and footer END
+# WEBSITE header, nav and footer END
 
-### DASH footer START
-venfig = vendor_share()  # Added as a workaround, costs performance
+# DASH footer START
+venfig = vendor_share()
 
-
-### WEBSITE Tab Switching Navigation Callback Logic START
+# Website Layout Tab Switching Navigation Callback Logic START
 @app.callback(Output('tab-content', 'children'),
               Input('tabs', 'value'))
 def render_content(tab):
@@ -644,12 +622,10 @@ def render_content(tab):
             'background-color': 'salmon',
         }
             , children=[
-
                 html.Div(id='amd_graph', children=[
                     dcc.Graph(figure=amd_line(), style={'padding-bottom': '15px',
                                                         'padding-left': '80px',
                                                         'padding-top': '30px', }),
-
                     html.Div(
                         children='The AMD Market Share Graph shows each AMD video card model comparatively by market share percentage over five months. The highest average market share belongs to the AMD Radeon Graphics card at 1.59%, '
                                  'while the lowest average market share percentage belongs to the AMD Radeon RX 6800 XT at 0.17%. Click on the dropdown menu to sort the AMD video card models by their model series, and click on the legend to toggle '
@@ -685,13 +661,12 @@ def render_content(tab):
             , children=[
                 html.Div(id='nvi_graph', children=[
                     dcc.Graph(figure=nvi_line(), style={'padding-bottom': '15px',
-                                                      'padding-left': '80px',
-                                                      'padding-top': '30px', }),
-
+                                                        'padding-left': '80px',
+                                                        'padding-top': '30px', }),
                     html.Div(
-                        children='The NVIDIA Market Share Graph shows each NVIDIA video card model comparatively by market share percentage over five months. The highest average market share belongs to the NVIDIA GeForce GTX 1060 Graphics card at 7.06%, '
-                                 'while the lowest average market share percentage belongs to the NVIDIA GeForce GTX 980 at 0.18%. Click on the dropdown menu to sort the NVIDIA video card models by their model series, and click on the legend to toggle a '
-                                 'set of GPU model data points.',
+                        children='The NVIDIA Market Share Graph shows each NVIDIA video card model comparatively by market share percentage over five months. The highest average market share belongs to the NVIDIA GeForce GTX 1060 Graphics card at '
+                                 '7.06%, while the lowest average market share percentage belongs to the NVIDIA GeForce GTX 980 at 0.18%. Click on the dropdown menu to sort the NVIDIA video card models by their model series, '
+                                 'and click on the legend to toggle a set of GPU model data points.',
                         style={
                             'font-family': 'Arial',
                             'font-size': '15pt',
@@ -723,9 +698,8 @@ def render_content(tab):
             , children=[
                 html.Div(id='int_graph', children=[
                     dcc.Graph(figure=int_line(), style={'padding-bottom': '15px',
-                                                      'padding-left': '80px',
-                                                      'padding-top': '30px', }),
-
+                                                        'padding-left': '80px',
+                                                        'padding-top': '30px', }),
                     html.Div(
                         children='All Intel models listed are integrated graphics built into Intel CPUs, meaning these people do not own a GPU card. The Intel Market Share Graph shows each Intel graphics chip comparatively by market share '
                                  'percentage over five months. The highest average market share belongs to the Intel(R) UHD Graphics 620 at 0.58%, while the lowest average market share percentage belongs to the Intel HD Graphics 5500 at 0.21%. '
@@ -754,11 +728,8 @@ def render_content(tab):
                         html.P(['Datafiles provided by the ', html.A('Steam Hardware & Software Survey', href='https://store.steampowered.com/hwsurvey/videocard/')]),
                     ]),
                 ])])
-
-
-### WEBSITE Tab Switching Navigation Callback Logic END
-
+# Website Layout Tab Switching Navigation Callback Logic END
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-### DASH footer END
+# DASH footer END
