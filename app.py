@@ -510,6 +510,7 @@ app.layout = html.Div([
 ### WEBSITE header, nav and footer END
 
 ### DASH footer START
+venfig = vendor_share() # Added as a workaround, costs performance
 ### WEBSITE Tab Switching Navigation Callback Logic START
 @app.callback(Output('tab-content', 'children'),
             Input('tabs', 'value'))
@@ -517,7 +518,8 @@ def render_content(tab):
     if tab == 'tab1':
         return html.Div(id='vendor_graph', children=[
 #            html.H3('Tab 1 content'),
-            dcc.Graph(figure=vendor_share())
+#            dcc.Graph(figure=vendor_share())   Commentted out as a workaround, costs performance
+            dcc.Graph(figure=venfig)
         ])
     elif tab == 'tab2':
         return html.Div(id='amd_graph', children=[
