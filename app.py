@@ -41,6 +41,8 @@ def vendor_share():
     name.remove('MONTH')
     count = 0
     blankgpu = Image.open('data/blankgpu.png')
+    blankgpu2 = blankgpu.resize((2080,700))
+    blankgpu3 = blankgpu2.transform(blankgpu2.size, Image.AFFINE, (1,0,0,0,1,1))
 
     for i in reformat.columns[1:]:
         reformat[i] = reformat[i].str.rstrip('%').astype('float')
@@ -49,23 +51,25 @@ def vendor_share():
                 x=reformat.MONTH,
                 y=reformat[i],
                 name=name[count],
+                hoverlabel=dict(namelength=-1)
             )
         )
         count += 1
 
     fig.add_layout_image(
         dict(
-            source=blankgpu,
-            xref='x', yref='y', x=-1, y=95, sizex=10, sizey=95, opacity=0.5, layer='below'
+            source=blankgpu3,
+            xref='x', yref='y', x=-0.20, y=100, sizex=10, sizey=100, opacity=0.5, layer='below'
         )
     )
     fig.update_layout(
         xaxis_title='Month',
         yaxis_title='Market Share (%)',
+        yaxis_range=[0,100],
         legend_title='Vendors',
         title='Steam Market Share by Vendor',
-        width=1808,
-        height=1017,
+        width=1800,
+        height=700,
         template='plotly_white',
         font=dict(
             size=20
@@ -87,25 +91,21 @@ def amd_line():
     graphics.insert(0, 'MONTH', Months, True)
     graphics = graphics.set_index(['MONTH'])
 
-    RX = AMD.filter(regex=('[^.*?](RX.*?)'))
+    RX = AMD.filter(regex=('[^Graphics](RX.*?)'))
     RX.insert(0, 'MONTH', Months, True)
     RX = RX.set_index(['MONTH'])
-    RX = RX.drop(columns=['AMD Radeon RX Vega 11 Graphics'])
 
-    fig.update_layout(
-        width=1600,
-        height=900,
-        template='plotly_white',
-        font=dict(size=20),
-        autosize=True,
-    )
+    gamebg = Image.open('data/releasedgames.png')
+    gamebg2 = gamebg.resize((1340, 690))
+
     for col in graphics.columns[:]:
         graphics[col] = graphics[col].str.rstrip('%').astype('float')
         fig.add_trace(
             go.Scatter(
                 x=graphics.index,
                 y=graphics[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
 
@@ -115,10 +115,27 @@ def amd_line():
             go.Scatter(
                 x=RX.index,
                 y=RX[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
 
+    fig.update_xaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
+    fig.update_yaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
+
+    fig.add_layout_image(
+        dict(
+            source=gamebg2,
+            xref='x', yref='y', x=0, y=1.9, sizex=120, sizey=2, opacity=0.15, layer='below'
+        )
+    )
+    fig.update_layout(
+        width=1700,
+        height=700,
+        template='plotly_white',
+        font=dict(size=20),
+        autosize=True,
+    )
     fig.update_layout(updatemenus=[go.layout.Updatemenu(
         active=0,
         x=0.55, y=1.11,
@@ -131,13 +148,13 @@ def amd_line():
                          'showlegend': True}]),
              dict(label='Graphics',
                   method='update',
-                  args=[{'visible': [True, True, True, True, True, True, False, False, False, False, False, False,
+                  args=[{'visible': [True, True, True, True, True, False, False, False, False, False, False, False,
                                      False, False, False, False, False, False, False, False]},
                         {'title': 'Graphics',
                          'showlegend': True}]),
              dict(label='RX',
                   method='update',
-                  args=[{'visible': [False, False, False, False, False, False, True, True, True, True, True, True, True,
+                  args=[{'visible': [False, False, False, False, False, True, True, True, True, True, True, True, True,
                                      True, True, True, True, True, True, True, True]},
                         {'title': 'RX',
                          'showlegend': True}]),
@@ -145,8 +162,10 @@ def amd_line():
         ))],
         xaxis_title='Month',
         yaxis_title='Market Share (%)',
+        xaxis_range=[0,4.2],
+        yaxis_range=[0,1.8],
         title='Steam Market Share (AMD)',
-        legend_title='Card Name:',
+        legend_title='AMD GPUs:',
         margin=dict(l=250, r=0, t=100, b=100),
     )
     return fig
@@ -200,13 +219,6 @@ def nvi_line():
     RTX30.insert(0, 'MONTH', Months, True)
     RTX30 = RTX30.set_index(['MONTH'])
 
-    fig.update_layout(
-        width=1600,
-        height=900,
-        template='plotly_white',
-        font=dict(size=20),
-        autosize=True,
-    )
     # FOR LOOPS (I WANT TO DIE)
     for col in GT.columns[:]:
         GT[col] = GT[col].str.rstrip('%').astype('float')
@@ -214,7 +226,8 @@ def nvi_line():
             go.Scatter(
                 x=GT.index,
                 y=GT[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
 
@@ -224,7 +237,8 @@ def nvi_line():
             go.Scatter(
                 x=GTX10.index,
                 y=GTX10[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in M.columns[:]:
@@ -233,7 +247,8 @@ def nvi_line():
             go.Scatter(
                 x=M.index,
                 y=M[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in GTX16.columns[:]:
@@ -242,7 +257,8 @@ def nvi_line():
             go.Scatter(
                 x=GTX16.index,
                 y=GTX16[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in GTX6.columns[:]:
@@ -251,7 +267,8 @@ def nvi_line():
             go.Scatter(
                 x=GTX6.index,
                 y=GTX6[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in GTX7.columns[:]:
@@ -260,7 +277,8 @@ def nvi_line():
             go.Scatter(
                 x=GTX7.index,
                 y=GTX7[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in GTX9.columns[:]:
@@ -269,7 +287,8 @@ def nvi_line():
             go.Scatter(
                 x=GTX9.index,
                 y=GTX9[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in MX.columns[:]:
@@ -278,7 +297,8 @@ def nvi_line():
             go.Scatter(
                 x=MX.index,
                 y=MX[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in RTX20.columns[:]:
@@ -287,7 +307,8 @@ def nvi_line():
             go.Scatter(
                 x=RTX20.index,
                 y=RTX20[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
     for col in RTX30.columns[:]:
@@ -296,10 +317,20 @@ def nvi_line():
             go.Scatter(
                 x=RTX30.index,
                 y=RTX30[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
+    fig.update_xaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
+    fig.update_yaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
 
+    fig.update_layout(
+        width=1700,
+        height=700,
+        template='plotly_white',
+        font=dict(size=20),
+        autosize=True,
+    )
     # layout
     fig.update_layout(updatemenus=[go.layout.Updatemenu(
         active=0,
@@ -418,10 +449,11 @@ def nvi_line():
         xaxis_title='Month',
         yaxis_title='Market Share (%)',
         title='Steam Market Share (Nvidia)',
-        legend_title='Card Name:',
+        legend_title='NVIDIA GPUs:',
         margin=dict(l=250, r=0, t=100, b=100),
-        width=1600,
-        height=900,
+        width=1880,
+        height=700,
+        xaxis_range=[0,4.2],
         template='plotly_white',
         font=dict(size=20),
         autosize=True,
@@ -448,18 +480,23 @@ def int_line():
             go.Scatter(
                 x=Graphic.index,
                 y=Graphic[col],
-                name=col
+                name=col,
+                hoverlabel=dict(namelength=-1)
             )
         )
+
+    fig.update_xaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
+    fig.update_yaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
 
     fig.update_layout(
         xaxis_title='Month',
         yaxis_title='Market Share (%)',
         title='Steam Market Share (Intel)',
-        legend_title='Card Name:',
+        legend_title='Intel Integrated Graphics:',
         margin=dict(l=250, r=0, t=100, b=100),
         width=1600,
-        height=900,
+        height=700,
+        xaxis_range=[0,4.2],
         template='plotly_white',
         font=dict(size=20),
         autosize=True,
@@ -549,10 +586,11 @@ def render_content(tab):
                 }
             ),
 
-            html.Div(children='GP4U is practical for many applications. (1) Gamers. From the new individuals diving into gaming to the more advanced gamers, the visualization provides insight to determine what GPU to/not to choose amongst the '
-                              'diverse market of GPU models. (2) Game Developers also benefit from the visualization by determining the GPU specs their player base(s) are using. Indie game developers are lately favorable towards higher-end '
-                              'graphics. Using this visualization, developers can determine whether or not they should favor graphical intensity over performance, given the player base specs. (3) Companies and stock traders can also use this '
-                              'visualization to watch and determine trends and make more accurate conclusions about a company and specific models from the data. Click on the tabs to explore the different Video Card Companies.', style={
+            html.Div(children='GP4U is a visualizes data provided by Steam on what GPUs their users use. '
+                              'By visualizing that data we can show people valuable information in regards to the GPU market. '
+                              'For example, with gaming becoming more and more mainstream, less tech-savvy people can use this to understand what GPUs they may want to purchase.'
+                              'Game Developers can see what GPUs the average gamer has, and '
+                              'investors could use this data to help them figure out what companies are doing well, and when used in conjunction with other information could determine future trends in the market.', style={
                 'font-family': 'Arial',
                 'font-size': '15pt',
                 'padding-left': '80px',
@@ -615,8 +653,12 @@ def render_content(tab):
             dcc.Graph(figure=int_line()),
 
             html.Div(
-                children='The Intel Market Share Graph shows each Intel video card model comparatively by market share percentage over five months. The highest average market share belongs to the Intel(R) UHD Graphics card at 1.24%, '
-                         'while the lowest average market share percentage belongs to the Intel HD Graphics 630 at 0.23%. Click on the legend to toggle a set of GPU model data points.',
+                children='All of these listed are integrated graphics built into Intel CPUs. This means that these are '
+                         'people who do not own a GPU card. The Intel Market Share '
+                         'Graph shows each Intel graphics chip comparatively by market share percentage over five '
+                         'months. The highest average market share belongs to the Intel(R) UHD Graphics card at 1.24%, '
+                         'while the lowest average market share percentage belongs to the Intel HD Graphics 630 at '
+                         '0.23%. Click on the legend to toggle a set of GPU model data points.',
                 style={
                     'font-family': 'Arial',
                     'font-size': '15pt',
