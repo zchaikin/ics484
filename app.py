@@ -515,22 +515,22 @@ app.layout = html.Div([
             Input('tabs', 'value'))
 def render_content(tab):
     if tab == 'tab1':
-        return html.Div([
+        return html.Div(id='vendor_graph', children=[
 #            html.H3('Tab 1 content'),
             dcc.Graph(figure=vendor_share())
         ])
     elif tab == 'tab2':
-        return html.Div([
+        return html.Div(id='amd_graph', children=[
 #            html.H3('Tab 2 content'),
             dcc.Graph(figure=amd_line())
         ])    
     elif tab == 'tab3':
-        return html.Div([
+        return html.Div(id='nvi_graph', children=[
 #            html.H3('Tab 3 content'),
             dcc.Graph(figure=nvi_line())
         ])
     elif tab == 'tab4':
-        return html.Div([
+        return html.Div(id='int_graph', children=[
 #            html.H3('Tab 4 content'),
             dcc.Graph(figure=int_line())
         ])
