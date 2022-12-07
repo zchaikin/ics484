@@ -24,7 +24,8 @@ Aug = by_company.iloc[:, [0, 3]]
 Sep = by_company.iloc[:, [0, 4]]
 Oct = by_company.iloc[:, [0, 5]]
 Months = ['JUN', 'JUL', 'AUG', 'SEP', 'OCT']
-
+gamebg = Image.open('data/releasedgames.png')
+gamebg2 = gamebg.resize((1340, 690))
 amd, intel, nvidia = sep_by_brands(data)
 # DATASET import and prep END
 
@@ -87,9 +88,6 @@ def amd_line():
     RX = AMD.filter(regex=('[^Graphics](RX.*?)'))
     RX.insert(0, 'MONTH', Months, True)
     RX = RX.set_index(['MONTH'])
-
-    gamebg = Image.open('data/releasedgames.png')
-    gamebg2 = gamebg.resize((1340, 690))
 
     for col in graphics.columns[:]:
         graphics[col] = graphics[col].str.rstrip('%').astype('float')
@@ -332,7 +330,6 @@ def nvi_line():
         )
     fig.update_xaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
-
     fig.update_layout(
         width=1700,
         height=700,
@@ -490,7 +487,12 @@ def int_line():
 
     fig.update_xaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black', showgrid=True, gridwidth=1, gridcolor='Black')
-
+    fig.add_layout_image(
+        dict(
+            source=gamebg2,
+            xref='x', yref='y', x=0, y=0.45, sizex=120, sizey=0.3, opacity=0.15, layer='below'
+        )
+    )
     fig.update_layout(
         xaxis_title='Month',
         yaxis_title='Market Share (%)',
