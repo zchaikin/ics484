@@ -623,7 +623,7 @@ def render_content(tab):
 
     elif tab == 'tab2':
         return html.Div(style={
-            'background-color': 'salmon',
+            'background-color': 'ghostwhite',
         }
             , children=[
                 html.Div(id='amd_graph', children=[
@@ -643,7 +643,7 @@ def render_content(tab):
                             'textAlign': 'left',
                             'width': '1808px',
                         }),
-                    html.Div(id='footer2', style={'background-color': 'salmon',
+                    html.Div(id='footer2', style={'background-color': 'ghostwhite',
                                                   'font-family': 'Arial',
                                                   'font-size': '15pt',
                                                   'padding-left': '80px',
@@ -660,7 +660,7 @@ def render_content(tab):
                 ])])
     elif tab == 'tab3':
         return html.Div(style={
-            'background-color': 'lightgreen',
+            'background-color': 'ghostwhite',
         }
             , children=[
                 html.Div(id='nvi_graph', children=[
@@ -680,7 +680,7 @@ def render_content(tab):
                             'textAlign': 'left',
                             'width': '1808px',
                         }),
-                    html.Div(id='footer3', style={'background-color': 'lightgreen',
+                    html.Div(id='footer3', style={'background-color': 'ghostwhite',
                                                   'font-family': 'Arial',
                                                   'font-size': '15pt',
                                                   'padding-left': '80px',
@@ -697,7 +697,7 @@ def render_content(tab):
                 ])])
     elif tab == 'tab4':
         return html.Div(style={
-            'background-color': 'lightskyblue',
+            'background-color': 'ghostwhite',
         }
             , children=[
                 html.Div(id='int_graph', children=[
@@ -717,7 +717,7 @@ def render_content(tab):
                             'textAlign': 'left',
                             'width': '1808px',
                         }),
-                    html.Div(id='footer4', style={'background-color': 'lightskyblue',
+                    html.Div(id='footer4', style={'background-color': 'ghostwhite',
                                                   'font-family': 'Arial',
                                                   'font-size': '15pt',
                                                   'padding-left': '80px',
