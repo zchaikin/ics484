@@ -38,6 +38,7 @@ def vendor_share():
     blankgpu = Image.open('data/blankgpu.png')
     blankgpu2 = blankgpu.resize((2080, 700))
     blankgpu3 = blankgpu2.transform(blankgpu2.size, Image.AFFINE, (1, 0, 0, 0, 1, 1))
+    colorList = ['#FF5733', '#338AFF', '#5BFF33', '#C941C9']
 
     for i in reformat.columns[1:]:
         reformat[i] = reformat[i].str.rstrip('%').astype('float')
@@ -46,6 +47,7 @@ def vendor_share():
                 x=reformat.MONTH,
                 y=reformat[i],
                 name=name[count],
+                line=dict(color=colorList[count]),
                 hoverlabel=dict(namelength=-1)
             )
         )
