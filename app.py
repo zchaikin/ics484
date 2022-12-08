@@ -513,13 +513,13 @@ def int_line():
 
 # Website Tabs Layout
 app.layout = html.Div([
-    html.H1('GP4U - Data Visualization Representing Steam Market Shares for Video Cards'),
+    html.H1('GP4U - Data Visualization Representing Steam Market Shares for Video Cards', style={'font-family': 'arial'}),
     dcc.Tabs(
         id="tabs",
         value='tab1',  # SETTING for DEFAULT TAB
         parent_className='tabs-css',
         className='tabs-container-css',
-        style={'background-color': 'aliceblue'},
+        style={'background-color': 'aliceblue', 'font-family': 'arial'},
         children=[
             dcc.Tab(label='Market Share',  # EDIT Home tab!
                     value='tab1',
